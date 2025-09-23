@@ -13,7 +13,10 @@ import {
 import { Chart, ChartDataset, ChartOptions, ChartType, registerables } from 'chart.js';
 import { ChartColorService, ColorScheme } from '../services/chart-color/chart-color.service';
 
-Chart.register(...registerables);
+import ChartDataLabels from 'chartjs-plugin-datalabels';
+import { centerTextPlugin } from '../plugin';
+
+Chart.register(...registerables, ChartDataLabels, centerTextPlugin);
 
 @Component({
   template: '', // Extended by child components
@@ -63,11 +66,21 @@ export abstract class BaseChartComponent<TType extends ChartType>
       this.datasets.length,
       this.colors
     );
-    const styledDatasets = this.datasets.map((d, i) => ({
-      ...d,
-      backgroundColor: d.backgroundColor ?? datasetColors[i],
-      borderColor: d.borderColor ?? datasetColors[i],
-    }));
+
+    const styledDatasets = this.datasets.map((d, i) => {
+      const backgroundColor = this.colorService.getColors(
+        this.colorScheme,
+        d.data.length,
+        this.colors
+      );
+      return {
+        ...d,
+        backgroundColor,
+        borderColor: d.borderColor,
+      };
+    });
+
+    console.log(styledDatasets);
 
     if (!this.chart) {
       console.log(this.buildConfig(styledDatasets));
@@ -95,9 +108,7 @@ export abstract class BaseChartComponent<TType extends ChartType>
       },
       options: {
         responsive: true,
-        plugins: {
-          title: this.title ? { display: true, text: this.title } : undefined,
-        },
+        plugins: [centerTextPlugin],
         onClick: (_e: any, elements: any) => {
           if (elements.length > 0) {
             const first = elements[0];

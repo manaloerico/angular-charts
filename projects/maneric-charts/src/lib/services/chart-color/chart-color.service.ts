@@ -62,7 +62,7 @@ export class ChartColorService {
     ];
     // Generate shades for each base color
     const expanded = baseColors.flatMap((color) => this.generateShades(color, 3));
-
+    console.log('expanded', expanded);
     return this.repeatPalette(expanded, count);
   }
 

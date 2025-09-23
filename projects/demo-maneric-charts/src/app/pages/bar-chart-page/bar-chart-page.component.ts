@@ -17,7 +17,27 @@ export class BarChartPageComponent implements OnInit {
 
   verticalData = [{ label: '2024', data: [30, 50, 40, 70] }];
 
-  horizontalData = [{ label: 'Sales', data: [60, 90, 120, 150] }];
+  // horizontalData = [{ label: 'Sales', data: [60, 90, 120, 150] }];
+  horizontalData = [
+    {
+      label: 'Dataset 1',
+      data: [
+        [10, 20],
+        [10, 20],
+        [10, 20],
+        [10, 20],
+      ],
+    },
+    {
+      label: 'Dataset 2',
+      data: [
+        [10, 20],
+        [10, 20],
+        [10, 20],
+        [10, 20],
+      ],
+    },
+  ];
 
   options: ChartOptions<'bar'> = {
     plugins: {
