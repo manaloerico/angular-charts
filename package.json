@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "version:patch": "npm version patch --no-git-tag-version && npm version patch --prefix projects/maneric-charts --no-git-tag-version && git add package.json projects/maneric-charts/package.json && git commit -m 'chore: bump version' && npm version from-git"
+    "version:patch": "npm version patch --no-git-tag-version && npm version patch --prefix projects/maneric-charts --no-git-tag-version && git add package.json projects/maneric-charts/package.json && git commit -m \"chore: bump version [skip ci]\" && node -e \"const v=require('./package.json').version; require('child_process').execSync('git tag v'+v,{stdio:'inherit'})\""
   },
   "prettier": {
     "printWidth": 100,
