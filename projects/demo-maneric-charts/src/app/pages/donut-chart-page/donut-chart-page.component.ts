@@ -15,7 +15,7 @@ export class DonutChartPageComponent implements OnInit {
 
   ngOnInit() {}
 
-  labels = ['Jan', 'Feb', 'Mar', 'Apr'];
+  labels = ['Jan', 'Feb', 'Mar', 'Apr', 'Jan', 'Feb', 'Mar', 'Apr'];
   options: ChartOptions<any> = {
     plugins: {
       legend: {
@@ -26,11 +26,12 @@ export class DonutChartPageComponent implements OnInit {
       },
       centerText: {
         prefix: '₱',
-        fontSize: 50,
+        fontSize: 50, // bigger
+        subTitle: 'haha',
       },
     },
     indexAxis: 'y',
     cutout: '50%',
   };
-  stackedData: ChartDataset<'doughnut'>[] = [{ label: 'Product A', data: [10, 30, 40, 50] }];
+  stackedData: ChartDataset<'doughnut'>[] = [{ data: [10, 30, 40, 50, 10, 30, 40, 50] }];
 }

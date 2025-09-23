@@ -14,8 +14,8 @@ import { Chart, ChartDataset, ChartOptions, ChartType, registerables } from 'cha
 import { ChartColorService, ColorScheme } from '../services/chart-color/chart-color.service';
 
 import ChartDataLabels from 'chartjs-plugin-datalabels';
+import { merge } from 'lodash';
 import { centerTextPlugin } from '../plugin';
-
 Chart.register(...registerables, ChartDataLabels, centerTextPlugin);
 
 @Component({
@@ -80,18 +80,16 @@ export abstract class BaseChartComponent<TType extends ChartType>
       };
     });
 
-    console.log(styledDatasets);
-
+    const config = this.buildConfig(styledDatasets);
     if (!this.chart) {
-      console.log(this.buildConfig(styledDatasets));
-      this.chart = new Chart(ctx, this.buildConfig(styledDatasets));
+      this.chart = new Chart(ctx, config);
     } else {
-      this.chart.data = {
-        ...this.chart.data,
-        ...{
+      this.chart = merge(this.chart, {
+        data: merge(this.chart.data, {
           datasets: styledDatasets,
-        },
-      } as any;
+        }),
+        options: config.options,
+      });
 
       this.chart?.update();
     }
@@ -100,15 +98,21 @@ export abstract class BaseChartComponent<TType extends ChartType>
   }
 
   private buildConfig(styledDatasets: any): any {
-    return {
-      type: this.getChartType(),
-      data: {
-        labels: this.labels,
-        datasets: styledDatasets as any,
-      },
-      options: {
+    const foregroundColor = this.colorService.getForegroundColor();
+    console.log('foregroundColor', foregroundColor);
+    const options = merge(
+      {
         responsive: true,
-        plugins: [centerTextPlugin],
+        plugins: {
+          legend: {
+            labels: {
+              color: foregroundColor,
+            },
+          },
+          centerText: {
+            fontColor: foregroundColor,
+          },
+        },
         onClick: (_e: any, elements: any) => {
           if (elements.length > 0) {
             const first = elements[0];
@@ -119,8 +123,16 @@ export abstract class BaseChartComponent<TType extends ChartType>
             this.pointClick.emit({ label, value });
           }
         },
-        ...this.options,
       },
+      this.options
+    );
+    return {
+      type: this.getChartType(),
+      data: {
+        labels: this.labels,
+        datasets: styledDatasets as any,
+      },
+      options,
     };
   }
   private updateChart(): void {

@@ -31,6 +31,13 @@ export class ChartColorService {
     '#9edae5',
   ];
 
+  getForegroundColor() {
+    const container = document.querySelector('.app-container') as HTMLElement;
+    const styles = getComputedStyle(container);
+
+    return styles.getPropertyValue('--chart-foreground').trim() || '#fff';
+  }
+
   /**
    * Returns an array of colors for charts based on scheme and theme
    */
@@ -62,7 +69,6 @@ export class ChartColorService {
     ];
     // Generate shades for each base color
     const expanded = baseColors.flatMap((color) => this.generateShades(color, 3));
-    console.log('expanded', expanded);
     return this.repeatPalette(expanded, count);
   }
 

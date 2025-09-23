@@ -21,9 +21,6 @@ export const centerTextPlugin: Plugin<any> = {
     } = chart;
     const opt = { ...defaultCenterTextPluginOptions, ...options };
     const { fontSize, fontColor, subTitle, text, prefix } = opt;
-
-    const { width } = chart;
-    const { height } = chart;
     const xCenter = (left + right) / 2;
     const yCenter = (top + bottom) / 2;
     const tFontSize = fontSize ?? 24;
@@ -33,14 +30,14 @@ export const centerTextPlugin: Plugin<any> = {
     const total = text ?? `${dataset.reduce((a, b) => a + b, 0)}`;
     const totalWithPrefix = prefix ? `${prefix}${total}` : total;
     ctx.font = `bold ${tFontSize}px Arial`;
-    ctx.fillStyle = `${fontColor}`;
+    ctx.fillStyle = fontColor!;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillText(totalWithPrefix, xCenter, yCenter);
 
     if (subTitle) {
       ctx.font = '12px Arial';
-      ctx.fillStyle = '#666';
+      ctx.fillStyle = fontColor!;
       ctx.fillText(subTitle, xCenter, (top + bottom) / 2 + tFontSize / 2);
     }
     ctx.restore();

@@ -9,6 +9,7 @@
     --chart-primary: #{mat.get-theme-color($theme, primary)};
     --chart-accent: #{mat.get-theme-color($theme, accent)};
     --chart-warn: #{mat.get-theme-color($theme, warn)};
+    --chart-foreground: #{mat.get-theme-color($theme, foreground, base)};
 }
 
 
