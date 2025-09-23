@@ -1,13 +1,13 @@
 {
   "name": "angular-charts",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --port=7200",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "version:patch": "npm version patch && npm version patch --prefix projects/maneric-charts --no-git-tag-version && git add projects/maneric-charts/package.json && git commit --amend --no-edit"
+    "version:patch": "npm version patch --no-git-tag-version && npm version patch --prefix projects/maneric-charts --no-git-tag-version && git add package.json projects/maneric-charts/package.json && git commit -m 'chore: bump version' && npm version from-git"
   },
   "prettier": {
     "printWidth": 100,
